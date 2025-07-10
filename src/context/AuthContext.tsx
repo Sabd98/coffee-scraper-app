@@ -16,22 +16,30 @@ interface User {
 
 interface AuthContextType {
   user: User | null;
+  isAuthenticated: boolean;
+  isLoading: boolean; 
   login: (userData: User) => void;
   logout: () => void;
-  isAuthenticated: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-
+  const [isLoading, setIsLoading] = useState(true);
+  
   useEffect(() => {
     // Cek apakah ada user di localStorage saat pertama load
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
-      setUser(JSON.parse(storedUser));
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch (e) {
+        console.error("Error parsing user data:", e);
+        localStorage.removeItem("user");
+      }
     }
+    setIsLoading(false); 
   }, []);
 
   const login = (userData: User) => {
@@ -47,7 +55,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const isAuthenticated = !!user;
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, isAuthenticated }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        isAuthenticated,
+        isLoading, 
+        login,
+        logout,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

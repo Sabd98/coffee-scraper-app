@@ -93,7 +93,7 @@ export default function StatsPage() {
           onClick={fetchStats}
           disabled={loading}
           variant="outline"
-          className="hover:shadow-md"
+          className="hover:shadow-md border border-amber-950 "
         >
           {loading ? (
             <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
@@ -111,7 +111,7 @@ export default function StatsPage() {
       )}
 
       <article className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <Card>
+        <Card className="border border-amber-950 shadow-md">
           <CardHeader>
             <CardTitle>Total Cities</CardTitle>
           </CardHeader>
@@ -120,7 +120,7 @@ export default function StatsPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border border-amber-950 shadow-md">
           <CardHeader>
             <CardTitle>Total Products</CardTitle>
           </CardHeader>
@@ -129,7 +129,7 @@ export default function StatsPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border border-amber-950 shadow-md">
           <CardHeader>
             <CardTitle>Price Average</CardTitle>
           </CardHeader>
@@ -147,7 +147,7 @@ export default function StatsPage() {
         </article>
       ) : stats.length > 0 ? (
         <>
-          <Card className="mb-8">
+          <Card className="mb-8 border border-amber-950 shadow-md">
             <CardHeader>
               <CardTitle>Price Distribution per City</CardTitle>
             </CardHeader>
@@ -156,7 +156,7 @@ export default function StatsPage() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="border border-amber-950 shadow-md">
             <CardHeader>
               <CardTitle>Statistic Detail per City</CardTitle>
             </CardHeader>

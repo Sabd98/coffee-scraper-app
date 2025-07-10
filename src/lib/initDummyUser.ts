@@ -3,7 +3,7 @@ import { User } from "./sequelize/initModels";
 
 export async function initDummyUser() {
   try {
-    await sequelize.sync();
+    await sequelize.sync({ alter: true });
 
     // Cek apakah user sudah ada
     const existingUser = await User.findOne({
@@ -14,6 +14,7 @@ export async function initDummyUser() {
       await User.create({
         name: "Dummy User",
         email: "user@example.com",
+        password: "password123", 
       });
       console.log("Dummy user created");
     }

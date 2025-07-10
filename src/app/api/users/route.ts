@@ -10,6 +10,14 @@ export async function GET() {
 
 export async function POST(request: Request) {
   const data = await request.json();
-  const user = await User.create(data);
-  return NextResponse.json(user, { status: 201 });
+
+  try {
+    const user = await User.create(data);
+    return NextResponse.json(user, { status: 201 }); // Pastikan mengembalikan user
+  } catch (error: any) {
+    return NextResponse.json(
+      { error: error.message || "Failed to create user" },
+      { status: 500 }
+    );
+  }
 }

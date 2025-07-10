@@ -50,7 +50,11 @@ export default function ProductsPage() {
       <nav className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Scraped Products</h1>
         <div className="flex space-x-2">
-          <Button asChild className="hover:shadow-md " variant="outline">
+          <Button
+            asChild
+            className="hover:shadow-md border border-amber-950 "
+            variant="outline"
+          >
             <Link href="/scrape" className="flex gap-x-1">
               <RefreshCw className="mr-2 h-4 w-4" />
               Scrape Again
@@ -66,9 +70,9 @@ export default function ProductsPage() {
         </div>
       ) : (
         <>
-          <Table>
+          <Table className="border border-amber-950 shadow-md">
             <TableHeader>
-              <TableRow>
+              <TableRow className=" border border-amber-950">
                 <TableHead>Product</TableHead>
                 <TableHead>Price</TableHead>
                 <TableHead>City</TableHead>
@@ -77,14 +81,19 @@ export default function ProductsPage() {
             </TableHeader>
             <TableBody>
               {products?.map((product) => (
-                <TableRow key={product.id}>
+                <TableRow key={product.id} className=" border border-amber-950">
                   <TableCell className="max-w-xs truncate">
                     {product.title}
                   </TableCell>
                   <TableCell>Rp {product.price.toLocaleString()}</TableCell>
                   <TableCell>{product.deliveryCity}</TableCell>
                   <TableCell>
-                    <Button asChild variant="ghost" size="icon">
+                    <Button
+                      asChild
+                      variant="ghost"
+                      size="icon"
+                      className=" border border-amber-950"
+                    >
                       <Link href={product.url} target="_blank">
                         <ExternalLink className="h-4 w-4" />
                       </Link>

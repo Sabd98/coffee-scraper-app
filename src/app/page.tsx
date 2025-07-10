@@ -18,9 +18,8 @@ export default function Home() {
 
       {/* Fitur Menu */}
       <section className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-
         <Link href="/products">
-          <article className="border rounded-lg p-6 hover:shadow-md transition-shadow cursor-pointer">
+          <article className="border border-amber-950 rounded-lg p-6 hover:shadow-lg transition-shadow cursor-pointer">
             <Coffee className="h-12 w-12 mx-auto mb-4 text-green-500" />
             <h3 className="text-lg font-semibold mb-2">Coffee Products</h3>
             <p className="text-gray-600">View coffee product data</p>
@@ -28,7 +27,7 @@ export default function Home() {
         </Link>
 
         <Link href="/scrape">
-          <article className="border rounded-lg p-6 hover:shadow-md transition-shadow cursor-pointer">
+          <article className="border border-amber-950 rounded-lg p-6 hover:shadow-lg transition-shadow cursor-pointer">
             <Scissors className="h-12 w-12 mx-auto mb-4 text-yellow-500" />
             <h3 className="text-lg font-semibold mb-2">Scraping Data</h3>
             <p className="text-gray-600">Get the latest data from Tokopedia</p>
@@ -36,7 +35,7 @@ export default function Home() {
         </Link>
 
         <Link href="/stats">
-          <article className="border rounded-lg p-6 hover:shadow-md transition-shadow cursor-pointer">
+          <article className="border border-amber-950 rounded-lg p-6 hover:shadow-lg transition-shadow cursor-pointer">
             <BarChart2 className="h-12 w-12 mx-auto mb-4 text-purple-500" />
             <h3 className="text-lg font-semibold mb-2">Dashboard</h3>
             <p className="text-gray-600">Price distribution analysis</p>
@@ -46,10 +45,18 @@ export default function Home() {
 
       {/* //Pintasan */}
       <nav className="flex justify-center space-x-4">
-        <Button asChild className="hover:shadow-md" variant="outline">
+        <Button
+          asChild
+          className="hover:shadow-lg border border-amber-950"
+          variant="outline"
+        >
           <Link href="/scrape">Start Scraping</Link>
         </Button>
-        <Button asChild className="hover:shadow-md " variant="outline">
+        <Button
+          asChild
+          className="hover:shadow-lg border border-amber-950"
+          variant="outline"
+        >
           <Link href="/stats">Check Dashboard</Link>
         </Button>
       </nav>

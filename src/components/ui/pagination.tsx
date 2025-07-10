@@ -19,6 +19,7 @@ const Pagination = ({
       <div className="flex items-center space-x-2">
         <Button
           variant="outline"
+          className=" border border-amber-950"
           size="icon"
           disabled={currentPage === 1}
           onClick={() => onPageChange(1)}
@@ -26,6 +27,7 @@ const Pagination = ({
           <ChevronsLeft className="h-4 w-4" />
         </Button>
         <Button
+         className=" border border-amber-950"
           variant="outline"
           size="icon"
           disabled={currentPage === 1}
@@ -34,6 +36,7 @@ const Pagination = ({
           <ChevronLeft className="h-4 w-4" />
         </Button>
         <Button
+         className=" border border-amber-950"
           variant="outline"
           size="icon"
           disabled={currentPage === totalPages}
@@ -42,6 +45,7 @@ const Pagination = ({
           <ChevronRight className="h-4 w-4" />
         </Button>
         <Button
+         className=" border border-amber-950"
           variant="outline"
           size="icon"
           disabled={currentPage === totalPages}

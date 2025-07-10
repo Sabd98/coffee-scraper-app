@@ -2,16 +2,13 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import axios from "axios";
-import Link from "next/link";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,12 +16,12 @@ export default function LoginPage() {
     setError("");
 
     try {
-      const response = await axios.post("/api/auth/login", { email, password });
+      const response = await axios.post("/api/login", { email,password });
 
       if (response.data.success) {
         // Simpan user data di local storage (sementara)
         localStorage.setItem("user", JSON.stringify(response.data.user));
-        router.push("/");
+        window.location.href = "/"; 
       } else {
         setError(response.data.error || "Login failed");
       }
@@ -36,8 +33,8 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-96">
+    <div className="min-h-screen flex items-center justify-center ">
+      <div className="bg-orange-200 p-8 rounded-lg shadow-md w-96">
         <h1 className="text-2xl font-bold mb-6 text-center">Login</h1>
 
         {error && (
@@ -78,26 +75,20 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className={`w-full bg-blue-600 text-white py-2 rounded ${
-              loading ? "opacity-70 cursor-not-allowed" : "hover:bg-blue-700"
+            className={`w-full bg-amber-700 text-white py-2 rounded ${
+              loading ? "opacity-70 cursor-not-allowed" : "hover:bg-amber-800"
             }`}
           >
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
 
-        <div className="mt-6 text-center">
+        {/* <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">
-            Dummy credentials: <br />
-            <span className="font-mono">user@example.com / password123</span>
-          </p>
-
-          <div className="mt-4 border-t pt-4">
-            <Link href="/" className="text-blue-600 hover:underline">
-              Back to homepage
-            </Link>
-          </div>
-        </div>
+          //   Dummy credentials: <br />
+          //   <span className="font-mono">user@example.com / password123</span>
+          // </p> 
+        </div> */}
       </div>
     </div>
   );

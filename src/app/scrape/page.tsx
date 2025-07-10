@@ -46,7 +46,7 @@ export default function ScrapePage() {
         <Button
           onClick={handleScrape}
           disabled={isScraping}
-          className="hover:shadow-md"
+          className="hover:shadow-md border border-amber-950 "
           variant="outline"
         >
           {isScraping ? (
@@ -81,7 +81,7 @@ export default function ScrapePage() {
       )}
 
       {/* Detail Data yang discraping */}
-      <article className="mt-8">
+      <article className="mt-8 ">
         <h2 className="text-xl font-semibold mb-4">Scraping Details</h2>
         <ul className="space-y-2">
           <li>
