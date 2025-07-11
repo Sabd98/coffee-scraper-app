@@ -3,8 +3,9 @@
 import { useCallback, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Loader2, RefreshCw } from "lucide-react";
-import axios from "axios";
 import { useRouter } from "next/navigation";
+import api from "@/lib/axios";
+import { axiosErrorHandler } from "@/lib/axiosErrorHandler";
 
 export default function ScrapePage() {
   //State scrape
@@ -23,15 +24,16 @@ export default function ScrapePage() {
 
     try {
       //Jalankan api server untuk scare dengan mengambil data di tokopedia secara scrape
-      const response = await axios.get("/api/scrape");
+      const response = await api.get("/api/scrape");
       setScrapeResult(response.data);
 
       // Refresh halaman produk setelah scraping
       setTimeout(() => router.refresh(), 2000);
-    } catch (error: any) {
+    } catch (error) {
+      const errorMessage = axiosErrorHandler(error);
       setScrapeResult({
         success: false,
-        error: error.response?.data?.error || "Unknown error",
+        error: errorMessage, 
       });
     } finally {
       setIsScraping(false);

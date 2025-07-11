@@ -5,6 +5,7 @@ import { useAuth } from "@/context/AuthContext";
 import { ReactNode, useEffect } from "react";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
+import Loader from "../ui/loader";
 
 interface AuthLayoutProps {
   children: ReactNode;
@@ -15,7 +16,6 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
   const router = useRouter();
   const pathname = usePathname();
   const isLoginPage = pathname === "/login";
-  const isHomePage = pathname === "/";
 
   useEffect(() => {
     if (!isLoading) {
@@ -33,7 +33,7 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
   if (isLoading || (!isAuthenticated && !isLoginPage)) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <p>Loading...</p>
+        <Loader />
       </div>
     );
   }

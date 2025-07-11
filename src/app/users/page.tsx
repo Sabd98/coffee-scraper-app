@@ -13,6 +13,7 @@ import { Plus, Edit, Trash } from "lucide-react";
 import Link from "next/link";
 import { useUsers } from "@/context/UsersContext";
 import { useState, useCallback } from "react";
+import Loader from "@/components/ui/loader";
 
 export default function UsersPage() {
   const { users, status, error, deleteUser, setError } = useUsers();
@@ -77,7 +78,7 @@ export default function UsersPage() {
 
   return (
     <section className="container mx-auto p-4">
-      <div className="flex justify-between items-center mb-6">
+      <nav className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">User Management</h1>
         <Link href="/users/create">
           <Button
@@ -88,7 +89,7 @@ export default function UsersPage() {
             <Plus className="mr-2" /> Add User
           </Button>
         </Link>
-      </div>
+      </nav>
 
       {/* Dialog Konfirmasi */}
       {confirmOpen && (
@@ -98,11 +99,14 @@ export default function UsersPage() {
           aria-modal="true"
           aria-labelledby="dialog-title"
         >
-          <div className="rounded-lg p-6 w-full max-w-md">
-            <h2 id="dialog-title" className="text-xl font-bold mb-4">
+          <div className="rounded-lg shadow-md  w-full max-w-md bg-orange-300">
+            <h2
+              id="dialog-title"
+              className="text-xl p-4 font-bold mb-4 border-b-2 border-amber-950"
+            >
               Confirm Delete
             </h2>
-            <p className="mb-6">
+            <p className="mb-6 px-4">
               Are you sure you want to delete this user? This action cannot be
               undone.
             </p>
@@ -113,16 +117,18 @@ export default function UsersPage() {
               </div>
             )}
 
-            <div className="flex justify-end space-x-3">
+            <div className="flex justify-end space-x-3 p-2">
               <Button
                 variant="outline"
                 onClick={handleCancelDelete}
                 disabled={deletingId !== null}
+                className="  hover:bg-orange-400"
               >
                 Cancel
               </Button>
               <Button
-                variant="destructive"
+                className="bg-red-600 text-white hover:bg-red-700"
+                variant="outline"
                 onClick={handleConfirmDelete}
                 disabled={deletingId !== null}
               >
@@ -146,7 +152,7 @@ export default function UsersPage() {
           {status === "loading" && (
             <TableRow>
               <TableCell colSpan={4} className="text-center py-8">
-                Loading...
+                <Loader />
               </TableCell>
             </TableRow>
           )}
@@ -165,17 +171,22 @@ export default function UsersPage() {
               <TableCell>
                 <div className="flex space-x-2">
                   <Link href={`/users/${user.id}/edit`}>
-                    <Button variant="outline" size="icon">
-                      <Edit className="h-4 w-4" />
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="border border-amber-950 hover:shadow-md"
+                    >
+                      <Edit className="h-4 w-4 hover:text-amber-600" />
                     </Button>
                   </Link>
                   <Button
                     variant="destructive"
                     size="icon"
                     disabled={deletingId === user.id}
+                    className="border border-amber-950 hover:shadow-md"
                     onClick={() => handleDeleteClick(user.id)}
                   >
-                    <Trash className="h-4 w-4" />
+                    <Trash className="h-4 w-4 text-red-400 hover:text-red-700" />
                   </Button>
                 </div>
               </TableCell>

@@ -12,8 +12,9 @@ import { ExternalLink, RefreshCw } from "lucide-react";
 import Link from "next/link";
 import { Product } from "@/lib/sequelize/initModels";
 import { useCallback, useEffect, useState } from "react";
-import axios from "axios";
 import { Pagination } from "@/components/ui/pagination";
+import api from "@/lib/axios";
+import Loader from "@/components/ui/loader";
 
 export default function ProductsPage() {
   //state data produk dsb
@@ -27,7 +28,7 @@ export default function ProductsPage() {
   const fetchProducts = useCallback(async (page: number) => {
     try {
       setLoading(true);
-      const response = await axios.get(
+      const response = await api.get(
         `/api/products?page=${page}&perPage=${perPage}`
       );
       setProducts(response.data.products);
@@ -65,9 +66,7 @@ export default function ProductsPage() {
 
       {/* Elemen tabel jika loading atau setelah loading */}
       {loading ? (
-        <div className="flex justify-center items-center h-64">
-          <p>Loading Products...</p>
-        </div>
+        <Loader />
       ) : (
         <>
           <Table className="border border-amber-950 shadow-md">
@@ -85,17 +84,19 @@ export default function ProductsPage() {
                   <TableCell className="max-w-xs truncate">
                     {product.title}
                   </TableCell>
-                  <TableCell>Rp {product.price.toLocaleString()}</TableCell>
+                  <TableCell>
+                    Rp {parseInt(product.price.toLocaleString())}
+                  </TableCell>
                   <TableCell>{product.deliveryCity}</TableCell>
                   <TableCell>
                     <Button
                       asChild
                       variant="ghost"
                       size="icon"
-                      className=" border border-amber-950"
+                      className="border border-amber-950 hover:shadow-md"
                     >
                       <Link href={product.url} target="_blank">
-                        <ExternalLink className="h-4 w-4" />
+                        <ExternalLink className="h-4 w-4 hover:text-amber-600" />
                       </Link>
                     </Button>
                   </TableCell>

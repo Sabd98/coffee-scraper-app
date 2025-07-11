@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { sequelize } from "@/lib/sequelize/connection";
 import { QueryTypes } from "sequelize";
+import { axiosErrorHandler } from "@/lib/axiosErrorHandler";
 
 export async function GET() {
   try {
@@ -25,9 +26,10 @@ export async function GET() {
 
     return NextResponse.json(stats);
   } catch (error) {
+    const errorMessage = axiosErrorHandler(error);
     console.error("Error fetching stats:", error);
     return NextResponse.json(
-      { error: "Internal Server Error", details: error.message },
+      { error: "Internal Server Error", details: errorMessage },
       { status: 500 }
     );
   }

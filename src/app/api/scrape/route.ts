@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import {Product} from "@/lib/sequelize/models/Product.model";
 import {sequelize} from "@/lib/sequelize/connection";
 import { syncModels } from "@/lib/sequelize/initModels";
+import { axiosErrorHandler } from "@/lib/axiosErrorHandler";
 
 export const dynamic = "force-dynamic"; // Pastikan tidak di-cache
 
@@ -51,43 +52,12 @@ export async function GET() {
       count: scrapedProducts.length,
       data: scrapedProducts,
     });
-  } catch (error: never) {
+  } catch (error) {
+    const errorMessage = axiosErrorHandler(error);
     return NextResponse.json(
-      { success: false, error: error.message },
+      { success: false, error: errorMessage || "Scraping failed" },
       { status: 500 }
     );
   }
 }
 
-// import { NextResponse } from "next/server";
-// import { exec } from "child_process";
-// import { promisify } from "util";
-// import path from "path";
-
-// const execAsync = promisify(exec);
-
-// export const dynamic = "force-dynamic";
-
-// export async function GET() {
-//   try {
-//     // Jalankan script scraper.js
-//     const { stdout } = await execAsync(
-//       `node ${path.join(process.cwd(), "scraper.js")}`
-//     );
-
-//     return NextResponse.json({
-//       success: true,
-//       message: `Scraped and saved products to database`,
-//       output: stdout,
-//     });
-//   } catch (error) {
-//     return NextResponse.json(
-//       {
-//         success: false,
-//         error: error.message,
-//         output: error.stdout || "",
-//       },
-//       { status: 500 }
-//     );
-//   }
-// }

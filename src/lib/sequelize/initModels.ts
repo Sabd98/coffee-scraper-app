@@ -132,12 +132,6 @@ export async function syncModels() {
       END $$
     `);
 
-    // // Update password untuk user yang sudah ada
-    // await User.update(
-    //   { password: "password123" }, // Set password default
-    //   { where: { password: "default_password" } } // Hanya untuk user dengan password default
-    // );
-
     // Sinkronkan model dengan aman
     await sequelize.sync({ alter: true });
 

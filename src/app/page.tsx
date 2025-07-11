@@ -1,7 +1,7 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Coffee, BarChart2, Scissors } from "lucide-react";
+import { Coffee, BarChart2, Scissors, Users } from "lucide-react";
 import "./globals.css";
 
 //Halaman Utama,
@@ -17,7 +17,14 @@ export default function Home() {
       </p>
 
       {/* Fitur Menu */}
-      <section className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+      <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+        <Link href="/users">
+          <article className="border border-amber-950 rounded-lg p-6 hover:shadow-lg transition-shadow cursor-pointer">
+            <Users className="h-12 w-12 mx-auto mb-4 text-blue-500" />
+            <h3 className="text-lg font-semibold mb-2">User Managemet</h3>
+            <p className="text-gray-600">Managing User App</p>
+          </article>
+        </Link>
         <Link href="/products">
           <article className="border border-amber-950 rounded-lg p-6 hover:shadow-lg transition-shadow cursor-pointer">
             <Coffee className="h-12 w-12 mx-auto mb-4 text-green-500" />

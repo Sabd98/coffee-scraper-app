@@ -1,4 +1,9 @@
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
+} from "lucide-react";
 import { Button } from "./button";
 
 // Component pagination untuk mengatur data per halaman
@@ -19,7 +24,7 @@ const Pagination = ({
       <div className="flex items-center space-x-2">
         <Button
           variant="outline"
-          className=" border border-amber-950"
+          className="border border-amber-950 hover:shadow-md"
           size="icon"
           disabled={currentPage === 1}
           onClick={() => onPageChange(1)}
@@ -27,7 +32,7 @@ const Pagination = ({
           <ChevronsLeft className="h-4 w-4" />
         </Button>
         <Button
-         className=" border border-amber-950"
+          className="border border-amber-950 hover:shadow-md"
           variant="outline"
           size="icon"
           disabled={currentPage === 1}
@@ -36,7 +41,7 @@ const Pagination = ({
           <ChevronLeft className="h-4 w-4" />
         </Button>
         <Button
-         className=" border border-amber-950"
+          className="border border-amber-950 hover:shadow-md"
           variant="outline"
           size="icon"
           disabled={currentPage === totalPages}
@@ -45,7 +50,7 @@ const Pagination = ({
           <ChevronRight className="h-4 w-4" />
         </Button>
         <Button
-         className=" border border-amber-950"
+          className="border border-amber-950 hover:shadow-md"
           variant="outline"
           size="icon"
           disabled={currentPage === totalPages}
@@ -56,5 +61,5 @@ const Pagination = ({
       </div>
     </nav>
   );
-}
-export {Pagination}
+};
+export { Pagination };

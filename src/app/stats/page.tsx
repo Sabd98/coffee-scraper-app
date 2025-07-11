@@ -12,7 +12,9 @@ import {
 import { RefreshCw } from "lucide-react";
 import CityStatsChart from "@/components/cityStatsChart";
 import { useCallback, useEffect, useState } from "react";
-import axios from "axios";
+import api from "@/lib/axios";
+import { axiosErrorHandler } from "@/lib/axiosErrorHandler";
+import Loader from "@/components/ui/loader";
 
 interface CityStat {
   city: string;
@@ -31,17 +33,17 @@ export default function StatsPage() {
     setLoading(true);
     setError("");
     try {
-      const response = await axios.get("/api/stats");
-
+      const response = await api.get("/api/stats");
       // Pastikan response valid
       if (response.data && Array.isArray(response.data)) {
         setStats(response.data);
       } else {
         throw new Error("Invalid response structure");
       }
-    } catch (err) {
-      setError(`Gagal memuat data Dashboard: ${err.message}`);
-      console.error(err);
+    } catch (error) {
+      const errorMessage = axiosErrorHandler(error);
+      setError(`Gagal memuat data Dashboard: ${errorMessage}`);
+      console.error(error);
     } finally {
       setLoading(false);
     }
@@ -52,7 +54,6 @@ export default function StatsPage() {
     fetchStats();
   }, [fetchStats]);
 
-  // Tampilkan error jika ada
   if (error) {
     return (
       <div className="container mx-auto p-4">
@@ -142,9 +143,7 @@ export default function StatsPage() {
       </article>
 
       {loading ? (
-        <article className="flex justify-center items-center h-64">
-          <p>Loading dashboard data...</p>
-        </article>
+       <Loader />
       ) : stats.length > 0 ? (
         <>
           <Card className="mb-8 border border-amber-950 shadow-md">

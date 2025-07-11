@@ -7,12 +7,14 @@ import {
   useEffect,
   ReactNode,
 } from "react";
-import axios from "axios"; // Import Axios
+import api from "@/lib/axios";
+import { axiosErrorHandler } from "@/lib/axiosErrorHandler";
 
 interface User {
   id: number;
   name: string;
   email: string;
+  password:string;
 }
 
 interface UsersContextType {
@@ -39,13 +41,12 @@ export function UsersProvider({ children }: { children: ReactNode }) {
     setStatus("loading");
     setError(null);
     try {
-      const response = await axios.get("/api/users");
+      const response = await api.get("/api/users");
       setUsers(response.data);
       setStatus("succeeded");
-    } catch (err: any) {
-      setError(
-        err.response?.data?.error ||
-          err.message ||
+    } catch (error) {
+      const errorMessage = axiosErrorHandler(error);
+      setError(errorMessage ||
           "An error occurred while fetching users"
       );
       setStatus("failed");
@@ -55,7 +56,7 @@ export function UsersProvider({ children }: { children: ReactNode }) {
   const createUser = async (userData: Omit<User, "id">) => {
     setError(null);
     try {
-      const response = await axios.post("/api/users", userData);
+      const response = await api.post("/api/users", userData);
 
       if (response.status !== 201) {
         throw new Error("Failed to create user");
@@ -64,16 +65,17 @@ export function UsersProvider({ children }: { children: ReactNode }) {
       const newUser = response.data;
 
       // Pastikan newUser memiliki struktur yang benar
-      if (!newUser.id || !newUser.name || !newUser.email) {
+      if (!newUser.id || !newUser.name || !newUser.email || !newUser.password) {
         throw new Error("Invalid user data returned from API");
       }
 
       setUsers((prev) => [...prev, newUser]);
       return newUser;
-    } catch (err: any) {
-      const errorMessage =
-        err.response?.data?.error || err.message || "Failed to create user";
-      setError(errorMessage);
+    } catch (error) {
+      const errorMessage = axiosErrorHandler(error);
+      setError(errorMessage ||
+          "An error occurred while fetching users"
+      );
       throw errorMessage; 
     }
   };
@@ -81,16 +83,15 @@ export function UsersProvider({ children }: { children: ReactNode }) {
   const updateUser = async (id: number, userData: Partial<User>) => {
     setError(null);
     try {
-      const response = await axios.put(`/api/users/${id}`, userData);
+      const response = await api.put(`/api/users/${id}`, userData);
       const updatedUser = response.data;
       setUsers((prev) =>
         prev.map((user) => (user.id === id ? updatedUser : user))
       );
       return updatedUser;
-    } catch (err: any) {
-      const errorMessage =
-        err.response?.data?.error || err.message || "Failed to update user";
-      setError(errorMessage);
+    } catch (error) {
+      const errorMessage = axiosErrorHandler(error);
+      setError(errorMessage || "An error occurred while fetching users");
       throw new Error(errorMessage);
     }
   };
@@ -98,12 +99,11 @@ export function UsersProvider({ children }: { children: ReactNode }) {
   const deleteUser = async (id: number) => {
     setError(null);
     try {
-      await axios.delete(`/api/users/${id}`);
+      await api.delete(`/api/users/${id}`);
       setUsers((prev) => prev.filter((user) => user.id !== id));
-    } catch (err: any) {
-      const errorMessage =
-        err.response?.data?.error || err.message || "Failed to delete user";
-      setError(errorMessage);
+    } catch (error) {
+      const errorMessage = axiosErrorHandler(error);
+      setError(errorMessage || "An error occurred while fetching users");
       throw new Error(errorMessage);
     }
   };

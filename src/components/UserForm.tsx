@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useUsers } from "@/context/UsersContext";
-import axios from "axios"; // Import Axios
+import api from "@/lib/axios";
 
 interface UserFormProps {
   mode: "create" | "edit";
@@ -15,6 +15,7 @@ export default function UserForm({ mode, userId }: UserFormProps) {
   const { createUser, updateUser, users } = useUsers();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [password,setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -31,11 +32,11 @@ export default function UserForm({ mode, userId }: UserFormProps) {
         const fetchUser = async () => {
           setIsLoading(true);
           try {
-            const response = await axios.get(`/api/users/${userId}`);
+            const response = await api.get(`/api/users/${userId}`);
             setName(response.data.name);
             setEmail(response.data.email);
-          } catch (err) {
-            setError("Failed to load user data");
+          } catch (err:unknown) {
+            setError("Failed to load user data"+err);
           } finally {
             setIsLoading(false);
           }
@@ -52,7 +53,7 @@ export default function UserForm({ mode, userId }: UserFormProps) {
 
     try {
       if (mode === "create") {
-        await createUser({ name, email });
+        await createUser({ name, email,password });
 
         // Tunggu sebentar untuk memastikan state sudah diupdate
         await new Promise((resolve) => setTimeout(resolve, 100));
@@ -98,7 +99,7 @@ export default function UserForm({ mode, userId }: UserFormProps) {
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-amber-950"
             required
           />
         </div>
@@ -112,7 +113,21 @@ export default function UserForm({ mode, userId }: UserFormProps) {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-amber-950"
+            required
+          />
+        </div>
+
+        <div>
+          <label htmlFor="password" className="block mb-2 font-medium">
+            Password
+          </label>
+          <input
+            id="password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-amber-950"
             required
           />
         </div>
@@ -129,10 +144,10 @@ export default function UserForm({ mode, userId }: UserFormProps) {
           <button
             type="submit"
             disabled={isSubmitting}
-            className={`px-4 py-2 bg-blue-600 text-white rounded transition-colors ${
+            className={`px-4 py-2 bg-amber-800 text-white rounded transition-colors ${
               isSubmitting
                 ? "opacity-50 cursor-not-allowed"
-                : "hover:bg-blue-700"
+                : "hover:bg-amber-950"
             }`}
           >
             {isSubmitting

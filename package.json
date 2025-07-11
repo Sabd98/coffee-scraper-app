@@ -9,11 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.1",
-    "@headlessui/react": "^2.2.4",
-    "@mui/material": "^7.2.0",
-    "@reduxjs/toolkit": "^2.8.2",
     "axios": "^1.10.0",
     "bcrypt": "^6.0.0",
     "dotenv": "^17.0.0",
@@ -23,11 +18,8 @@
     "pg": "^8.16.3",
     "pg-hstore": "^2.3.4",
     "playwright": "^1.53.1",
-    "playwright-extra": "^4.3.6",
-    "puppeteer-extra-plugin-stealth": "^2.11.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-redux": "^9.2.0",
     "sequelize": "^6.37.7",
     "sequelize-typescript": "^2.1.6"
   },

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { Product } from "@/lib/sequelize/initModels";
-import {sequelize} from "@/lib/sequelize/connection";
+import { sequelize } from "@/lib/sequelize/connection";
+import { axiosErrorHandler } from "@/lib/axiosErrorHandler";
 
 //API untuk ambil data produk dari database postgre
 export async function GET(request: Request) {
@@ -27,7 +28,8 @@ export async function GET(request: Request) {
       currentPage: page,
       totalItems: count,
     });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    const errorMessage = axiosErrorHandler(error);
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }

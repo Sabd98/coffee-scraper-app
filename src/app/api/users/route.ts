@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import {User} from "@/lib/sequelize/models/User.model";
 import { syncModels } from "@/lib/sequelize/initModels";
+import { axiosErrorHandler } from "@/lib/axiosErrorHandler";
 
 export async function GET() {
   await syncModels();
@@ -14,9 +15,10 @@ export async function POST(request: Request) {
   try {
     const user = await User.create(data);
     return NextResponse.json(user, { status: 201 }); // Pastikan mengembalikan user
-  } catch (error: any) {
+  } catch (error) {
+    const errorMessage = axiosErrorHandler(error);
     return NextResponse.json(
-      { error: error.message || "Failed to create user" },
+      { error: errorMessage || "Failed to create user" },
       { status: 500 }
     );
   }
