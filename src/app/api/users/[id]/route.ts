@@ -1,14 +1,18 @@
-// app/api/users/[id]/route.ts
-import { NextResponse } from "next/server";
+// src/app/api/users/[id]/route.ts
+import { NextResponse, NextRequest } from "next/server";
 import { User } from "@/lib/sequelize/models/User.model";
 import { syncModels } from "@/lib/sequelize/initModels";
 
-export async function GET(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
+// Solusi untuk GET
+export async function GET(request: NextRequest) {
+  const id = request.nextUrl.pathname.split("/").pop();
+
+  if (!id) {
+    return NextResponse.json({ error: "ID not provided" }, { status: 400 });
+  }
+
   await syncModels();
-  const user = await User.findByPk(params.id);
+  const user = await User.findByPk(id);
 
   if (!user) {
     return NextResponse.json({ error: "User not found" }, { status: 404 });
@@ -17,14 +21,18 @@ export async function GET(
   return NextResponse.json(user);
 }
 
-export async function PUT(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
+// Solusi untuk PUT
+export async function PUT(request: NextRequest) {
+  const id = request.nextUrl.pathname.split("/").pop();
+
+  if (!id) {
+    return NextResponse.json({ error: "ID not provided" }, { status: 400 });
+  }
+
   await syncModels();
   const data = await request.json();
 
-  const user = await User.findByPk(params.id);
+  const user = await User.findByPk(id);
 
   if (!user) {
     return NextResponse.json({ error: "User not found" }, { status: 404 });
@@ -34,12 +42,16 @@ export async function PUT(
   return NextResponse.json(updatedUser);
 }
 
-export async function DELETE(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
+// Solusi untuk DELETE
+export async function DELETE(request: NextRequest) {
+  const id = request.nextUrl.pathname.split("/").pop();
+
+  if (!id) {
+    return NextResponse.json({ error: "ID not provided" }, { status: 400 });
+  }
+
   await syncModels();
-  const user = await User.findByPk(params.id);
+  const user = await User.findByPk(id);
 
   if (!user) {
     return NextResponse.json({ error: "User not found" }, { status: 404 });

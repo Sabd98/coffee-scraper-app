@@ -1,14 +1,12 @@
 // src/app/users/[id]/edit/page.tsx
 import UserForm from "@/components/UserForm";
+import { use } from "react";
 
-interface EditUserPageProps {
-  params: {
-    id: string;
-  };
-}
 
-export default function EditUserPage({ params }: EditUserPageProps) {
-  const userId = parseInt(params.id);
+
+export default function EditUserPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params);
+  const userId = parseInt(id);
 
   return <UserForm mode="edit" userId={userId} />;
 }

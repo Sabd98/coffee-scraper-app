@@ -38,6 +38,7 @@ const CityStatsChart = ({ data }: CityStatsChartProps) => {
 
   // 3. Cache tooltip formatter
   const tooltipFormatter = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (params: any) => {
       const { name, value } = params;
       const cityData = data.find((d) => d.city === name);
@@ -90,7 +91,8 @@ const CityStatsChart = ({ data }: CityStatsChartProps) => {
           label: {
             show: true,
             position: "top",
-            formatter: (params: any) =>
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            formatter: (params:any) =>
               `Rp ${Math.round(params.value).toLocaleString()}`,
           },
           emphasis: {
